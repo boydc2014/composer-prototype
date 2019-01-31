@@ -119,7 +119,7 @@ Since all assets are defined in bots. The bot launcher's config is simple, only 
 Composer will iteract with two components, so there is two sections in package.json describe the relationship.
 
 ```
-/Composer/App/package.json
+/Composer/package.json
 {
     bot: {
         provider: "localDisk"
@@ -138,7 +138,7 @@ It's very self-explained, the "bot" section tell the composer where the bot is, 
 there is also a `launcher.json` inside composer, which is designed to override the config inside launcher, to make sure the launcher is started the way composer wants.
 
 ``` 
-/Composer/App/launcher.json (same schema as /BotLauncher/CSharp/appsettings.json)
+/Composer/launcher.json (same schema as /BotLauncher/CSharp/appsettings.json)
 {
     bot: {
         provider: "localDisk",
