@@ -1,6 +1,22 @@
 # Composer
 The web app that can edit bots in OBI format, and can use Bot Launcher to run bot.
 
+# Instructions
+
+Pre-require:
+* node\npm
+* yarn
+
+in this folder
+
+```
+$ yarn install // install dependencies
+$ yarn server // start api server
+$ yarn start  // start front end
+```
+then go to http://localhost:3000/, make sure you use Chrome
+
+
 # Extensions
 Composer is built with an extension system, this project shows samples of the extension system
 
