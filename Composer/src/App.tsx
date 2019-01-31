@@ -22,7 +22,7 @@ class App extends React.Component<any, any> {
   }
 
   getFileListFromServer = () => {
-    axios.get('http://localhost:5000/api/editor')
+    axios.get('http://localhost:5000/api/fileserver')
     .then((response:any) => {
       const state:any = {fileList:response.data}
       if(response.data.length > 0) {
@@ -37,7 +37,7 @@ class App extends React.Component<any, any> {
   }
 
   saveCodeToServer = (name: string, content: string) => {
-    axios.put('http://localhost:5000/api/editor', {name, content})
+    axios.put('http://localhost:5000/api/fileserver', {name, content})
     .then((response:any) => {
       alert('save success')
     }).catch(function(res){
