@@ -93,7 +93,34 @@ Either or, the extension don't have to worry about how it's gone to be loaded, a
 ## how to interact with the host(composer)?
 
 
+### messaging API
+We use IFrame as container for extension since it's a starndard approach. 
 
+The way the window inside IFrame conmunicate with the parent window is usually using two standard API
+* [window.postMesssage](https://developer.mozilla.org/en-US/docs/Web/API/Channel_Messaging_API) 
+
+  this allows you to send a message to a certain window. Both sides in the IFrame holds each other's reference, so it can use this api to post message. 
+* [window.addEventListener](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener)
+  This allows you to listen on the messages being passed in. the postMessage api will pass data in the `message` endpoint. So usually a call is looks like this 
+
+    ```
+    window.addEventListener("message", receiveMessage, false);
+    function receiveMessage(event) {
+    if (event.origin !== "http://example.org:8080")
+        return;
+
+        // ...
+    }
+  ```
+
+two good reference to this approach are
+1. [Two way iframe communication](https://gist.github.com/pbojinov/8965299)
+2. [VSCode webview api](https://code.visualstudio.com/api/extension-guides/webview#scripts-and-message-passing)
+
+### data-in story
+
+
+### data-out story
 
 
 
