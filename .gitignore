@@ -57,41 +57,24 @@ typings/
 # dotenv environment variables file
 .env
 
-# next.js build output
-.next
-BotLauncher/CSharp/obj/project.assets.json
-BotLauncher/CSharp/obj/Microsoft.Bot.Builder.TestBot.Json.csproj.nuget.g.targets
-BotLauncher/CSharp/obj/Microsoft.Bot.Builder.TestBot.Json.csproj.nuget.g.props
-BotLauncher/CSharp/obj/Microsoft.Bot.Builder.TestBot.Json.csproj.nuget.cache
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.pdb
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.dll
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.csprojAssemblyReference.cache
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.csproj.FileListAbsolute.txt
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.csproj.CoreCompileInputs.cache
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.csproj.CopyComplete
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.assets.cache
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.AssemblyInfoInputs.cache
-BotLauncher/CSharp/obj/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.AssemblyInfo.cs
-BotLauncher/CSharp/Microsoft.Bot.Builder.TestBot.Json.csproj.user
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Expressions.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Schema.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Connector.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.runtimeconfig.json
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.runtimeconfig.dev.json
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.pdb
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TestBot.Json.deps.json
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.TemplateManager.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.Integration.AspNet.Core.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.Dialogs.Flow.Loader.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.Dialogs.Flow.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.Dialogs.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Microsoft.Bot.Builder.Dialogs.Composition.dll
-BotLauncher/CSharp/bin/Debug/netcoreapp2.0/Dialogs/main.dialog
-BotLauncher/CSharp/.vs/Microsoft.Bot.Builder.TestBot.Json/v15/Server/sqlite3/storage.ide-wal
-BotLauncher/CSharp/.vs/Microsoft.Bot.Builder.TestBot.Json/v15/Server/sqlite3/storage.ide-shm
-BotLauncher/CSharp/.vs/Microsoft.Bot.Builder.TestBot.Json/v15/Server/sqlite3/storage.ide
-BotLauncher/CSharp/.vs/Microsoft.Bot.Builder.TestBot.Json/v15/Server/sqlite3/db.lock
-BotLauncher/CSharp/.vs/Microsoft.Bot.Builder.TestBot.Json/v15/.suo
-BotLauncher/CSharp/.vs/config/applicationhost.config
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio cache/options directory
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
