@@ -92,7 +92,7 @@ We may use a combine of shared mode and dedicated mode. In this prototype, we sh
 
 Either or, the extension don't have to worry about how it's gone to be loaded, and hosted, it should focus on how to interact with composer. 
 
-## How to interact with the host(composer)?
+## How an extension interacts with composer?
 
 
 ### messaging API
@@ -212,13 +212,28 @@ In the saving process, the extension is the sender, the composer is the receiver
 ```
 it's similar to the data-in story, with a slightly difference that: at the main window, too much events can happen, so we have an extra field (command==='onmessage') to identify this is a message from extension.  This might not be necessary, but we just borrow that from VS code.
 
+### other types of interactions
+With this data-in\data-out stories, the core mechanism is clear, a simple messaging API with some kind of message schema defined and agreed with both side, aka, it's a protocol here. 
 
+With this protocol, it's easy for us to expose more capability to the extension, for sth that can be done easily in composer but difficult in the extension itself, such as
+* Send an alert
+* Create a modal window
 
+It's all done with this message protocol. See more details in [message protocol] 
 
+## FAQ
 
+### 1. Can I only develop an extension with javascript? 
+No, you can use your prefered language and tooling, just need to make sure put a package.json and html artifact into `src/extensions`
+But you do it in javascript and React, we have pretty useful sample and helper classes for you. 
 
+### 2. Only html? what if I have something else, js, css to include in?
+You can have compiled\packed into one single html, or you can refer those assets in your html, just make sure your assests can be accessed from the intented user's browser.
 
-
+### 3. Can I control what time, what location my extension would be shown?
+No, you can't at this point. 
+Your extension can only specify what kind of data your extension is interested in. Composer will load\init your extension when this data needs to be edited. 
+In the furture, we may expose more control to the extensions. 
 
 
 
@@ -226,3 +241,5 @@ it's similar to the data-in story, with a slightly difference that: at the main 
 # Appendix
 
 ## extension serving
+## messaging protocol
+Not needed to be defined perfectly at this time.
