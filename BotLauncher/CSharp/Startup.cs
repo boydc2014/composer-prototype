@@ -44,10 +44,7 @@ namespace Microsoft.Bot.Builder.TestBot.Json
             string rootDialog = string.Empty;
             var botFile = Configuration.GetSection("Bot").Get<BotFile>();
             var botProject = BotProject.Load(botFile);
-            if (botProject.Dialogs.Count > 0)
-            {
-                rootDialog = botProject.Dialogs[0];
-            }
+            rootDialog = botProject.entry;
            
             var accessors = new TestBotAccessors
             {
