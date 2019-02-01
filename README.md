@@ -66,7 +66,7 @@ Here is a overview of the folder structure, with hightlighting on some important
       /- SampleBot1
         /- bot1.bot    (bot project file, maybe we can call it .botproject, all files should be referenced here)
     /- Composer
-      /- package.json  
+      /- config.json   (the config to the composer)
       /- launcher.json (composer use this config to start Bot Launcher)
 
 
@@ -117,10 +117,14 @@ Since all assets are defined in bots. The bot launcher's config is simple, only 
 
 ## Composer configuration
 
-Composer will iteract with two components, so there is two sections in package.json describe the relationship.
+### config.json
+
+config.json in composer is where to specfic 
+1. which bot we are editing (if we follow vscode convention, this should be in .composer, but let's make it simple here)
+2. which launcher we are using
 
 ```
-/Composer/package.json
+/Composer/config.json 
 {
     // this is the bot we are editing\composing
     bot: {
@@ -135,6 +139,8 @@ Composer will iteract with two components, so there is two sections in package.j
 ```
 
 It's very self-explained, the "bot" section tell the composer where the bot is, the "launcher" section tell the composer how to play with the launcher. 
+
+### launcher4[CS\NODE].json
 
 there is also a `launcher4CS.json` inside composer, which is designed to override the config inside launcher, to make sure the launcher is started the way composer wants.
 
