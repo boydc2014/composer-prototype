@@ -1,0 +1,10 @@
+{
+    "bot": {
+        "provider": "localDisk",
+        "path": "../Bots/SampleBot1/bot1.bot"
+    },
+    "launcher": {
+        "configFile": "launcher4CS.json",
+        "startCommand": "cp launcher.json '../../BotLauncher/CSharp/appsetings.json' && cd '../../BotLauncher/CSharp' && dotnet run"
+    }
+}
