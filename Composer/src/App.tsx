@@ -13,7 +13,8 @@ class App extends React.Component<any, any> {
     this.state = {
       src:getEditorUrl('.json'),
       index:0,
-      fileList:[]
+      fileList:[],
+      botStatus:'Stopped'
     }
   }
 
@@ -69,14 +70,41 @@ class App extends React.Component<any, any> {
     return postf
   } 
 
+  onToggleBot = () => {
+    if (this.state.botStatus === 'Stopped') {
+
+      axios.get('http://localhost:5000/api/launcher/start')
+      .then((response:any) => {
+        
+        this.setState({botStatus:'Running'})
+      }).catch(function(res){
+        console.log(res);
+      });
+
+
+    } else {
+
+      axios.get('http://localhost:5000/api/launcher/stop')
+      .then((response:any) => {
+        
+        this.setState({botStatus:'Stopped'})
+      }).catch(function(res){
+        console.log(res);
+      });
+
+
+    }
+  }
+
   public render() {
     const fileList = this.state.fileList;
+    const botStatus = this.state.botStatus;
 
     return (  
       <div className="App">
         <header className="App-header">
           <div className="header-aside">Composer</div>
-          <div className="header-editor"/>
+          <div className="header-editor"> <button className="ToggleBotButton" onClick={this.onToggleBot}> {botStatus === 'Stopped'? 'Start':'Stop'}</button> <a> The bot is <span> {botStatus} </span></a> </div>
         </header>
         <aside className="App-sidebar">
           <nav>
