@@ -34,6 +34,9 @@ router.get("/stop", function(req, res, next) {
     try {
         if(!isStart)
             throw new Error();
+
+        // This line, for some reason, can not kill the web service
+        // TODO: totally revisit this, and use a more reasonable approach for managing subprocesses
         child.kill();
         isStart = false;
         res.send('OK');
