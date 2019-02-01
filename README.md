@@ -61,13 +61,13 @@ Here is a overview of the folder structure, with hightlighting on some important
 
     /- BotLauncher
       /- CSharp
-        /- appsettings.json
+        /- appsettings.json (has a ref to xx.bot, otherwise which bot to run?)
     /- Bots
       /- SampleBot1
-        /- bot1.bot
+        /- bot1.bot    (bot project file, maybe we can call it .botproject, all files should be referenced here)
     /- Composer
-      /- package.json
-      /- launcher.json
+      /- package.json  
+      /- launcher.json (composer use this config to start Bot Launcher)
 
 
 It's very clearly divided in the top level, each component has it's own folder. 
@@ -104,6 +104,7 @@ Since all assets are defined in bots. The bot launcher's config is simple, only 
 ```
 /BotLauncher/CSharp/appsettings.json
 {
+    // this is the bot to be launched
     bot: {
         provider: "localDisk",
         path: "../../Bots/SampleBot1/bot1.bot
@@ -121,11 +122,13 @@ Composer will iteract with two components, so there is two sections in package.j
 ```
 /Composer/package.json
 {
+    // this is the bot we are editing\composing
     bot: {
         provider: "localDisk"
         path: "../../Bots/SampleBot1/bot1.bot"
     }
     
+    // this is the config used to start the Launcher
     launcher: {
         rootDir: "../../BotLauncher/CSharp"
         startCommand: "cp launcher.json ../../BotLauncher/CSharp && dotnet start"
@@ -139,6 +142,9 @@ there is also a `launcher.json` inside composer, which is designed to override t
 
 ``` 
 /Composer/launcher.json (same schema as /BotLauncher/CSharp/appsettings.json)
+
+this whole file will be copied to the Bot Launcher folder to start Launcher
+
 {
     bot: {
         provider: "localDisk",
