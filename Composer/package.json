@@ -63,10 +63,6 @@
     "lerna": "^3.6.0",
     "typescript": "^3.2.4"
   },
-  "bot": {
-    "provider": "localDisk",
-    "path": "../Bots/SampleBot1/bot1.bot"
-  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

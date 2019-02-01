@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var fileServerRouter = require('./router/fileServer');
+var launcherServerRouter = require('./router/launcherServer');
 const app = express();
 
 app.all('*', function(req, res, next) {
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/fileserver', fileServerRouter);
+app.use('/api/launcher', launcherServerRouter);
 
 app.listen(process.env.PORT || 5000, () => {
     console.log('Server running');

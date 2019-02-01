@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var path = require('path');
-var config = require('../../../package.json');
+var config = require('../../../config.json');
 
 //!Notice: .bot file's path is just a name, its real path depends on config.bot.path of package.json.
 //Other file's path are relative path of .bot file.
