@@ -12,25 +12,7 @@ router.post("/start", function(req, res, next) {
     try {
         if(isStart)
             throw new Error('has already started');
-
-        let configFile = config.launcher.configFile;
-        
-        if(configFile == undefined)
-            throw new Error('configFile noe defined');
-        
-        let configFilePath = path.join('./',configFile);
-        
-        let launchFileContent = fs.readFileSync(configFilePath, "utf-8");
-        
-        let launchFile = JSON.parse(launchFileContent);
-        launchFile.bot = config.bot;
-
-        fs.writeFile(configFilePath, JSON.stringify(launchFile), {}, function (err) {
-            if(err) {
-                throw new Error('write file error');
-             }
-         });
-
+            
          process.exec(config.launcher.startCommand);
          isStart = true;
          res.send('OK');

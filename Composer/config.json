@@ -4,7 +4,6 @@
         "path": "../Bots/SampleBot1/bot1.bot"
     },
     "launcher": {
-        "configFile": "launcher4CS.json",
-        "startCommand": "cp launcher.json '../../BotLauncher/CSharp/appsetings.json' && cd '../../BotLauncher/CSharp' && dotnet run"
+        "startCommand": "cp launcher4CS.json '../../BotLauncher/CSharp/appsetings.json' && cd '../../BotLauncher/CSharp' && dotnet run"
     }
 }
