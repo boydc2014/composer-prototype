@@ -1,6 +1,6 @@
 {
   "bot":{
       "provider":"localDisk",
-      "path":"../Bots/SampleBot1/bot1.bot"
+      "path":"../../Bots/SampleBot3/bot3.bot"
   }
 }

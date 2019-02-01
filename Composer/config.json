@@ -1,9 +1,9 @@
 {
     "bot": {
         "provider": "localDisk",
-        "path": "../Bots/SampleBot1/bot1.bot"
+        "path": "../Bots/SampleBot3/bot3.bot"
     },
     "launcher": {
-        "startCommand": "cp launcher4CS.json '../../BotLauncher/CSharp/appsetings.json' && cd '../../BotLauncher/CSharp' && dotnet run"
+        "startCommand": "copy launcher4CS.json ..\\BotLauncher\\CSharp\\appsettings.json && cd ..\\BotLauncher\\CSharp && dotnet run"
     }
 }

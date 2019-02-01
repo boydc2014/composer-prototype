@@ -8,12 +8,21 @@ var config = require('../../../config.json');
 
 var isStart = false;
 
-router.post("/start", function(req, res, next) {
+var child = null;
+
+router.get("/start", function(req, res, next) {
     try {
         if(isStart)
             throw new Error('has already started');
-            
-         process.exec(config.launcher.startCommand);
+
+            child = process.exec(config.launcher.startCommand, (err, stdout, stderr) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
+         });
          isStart = true;
          res.send('OK');
     } catch (error) {
@@ -21,15 +30,20 @@ router.post("/start", function(req, res, next) {
     }
 });
 
-router.post("/stop", function(req, res, next) {
+router.get("/stop", function(req, res, next) {
     try {
         if(!isStart)
             throw new Error();
-        //TODO
-        
+        child.kill();
+        isStart = false;
+        res.send('OK');
     } catch (error) {
         res.status(400).json({error: 'Stop error'});
     }
 });
+
+router.get("/status", function(req, res, next) {
+    res.send(isStart ? "Running":"Stopped");
+})
 
 module.exports = router;
