@@ -120,7 +120,7 @@ class App extends React.Component<any, any> {
           </nav>
         </aside>
         <button className="App-editor-save" onClick={this.sendSaveCmd}>save</button>
-        <Editor src={this.state.src} content={fileList.length>0? fileList[this.state.index].content:''} onSave={this.handleSave}/>
+        <Editor index={this.state.index} src={this.state.src} content={fileList.length>0? fileList[this.state.index].content:''} onSave={this.handleSave}/>
       </div>
     );
   }

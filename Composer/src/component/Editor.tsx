@@ -12,6 +12,7 @@ class Editor extends React.Component<any, any> {
     }
   }
 
+
   componentDidMount() {
     window.addEventListener('message', this.handleMessageEvent)
   }
@@ -51,6 +52,7 @@ class Editor extends React.Component<any, any> {
   public render() {
     return (
         <iframe
+          key = {this.props.index}
           ref = {this.iframeRef}
           src = {this.props.src}
           className = "App-iframe"

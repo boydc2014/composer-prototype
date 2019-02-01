@@ -4,6 +4,7 @@
 
 const EditorMapping = {
     '.bot' : 'static/extensions/jsonEditor.html',
+    '.dialog' : 'static/extensions/jsonEditor.html',
     '.json': 'static/extensions/jsonEditor.html',
     '.lg': 'static/extensions/markdownEditor.html',
     '.lu': 'static/extensions/markdownEditor.html',
