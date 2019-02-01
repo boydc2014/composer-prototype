@@ -1,0 +1,7 @@
+{
+    "name": "BotLauncherTestBot",
+    "description": "This is a Test bot",
+    "dialogs": [
+		"main.dialog"
+    ],
+}
