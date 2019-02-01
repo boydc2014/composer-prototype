@@ -42,7 +42,7 @@ namespace Microsoft.Bot.Builder.TestBot.Json
 
             // Get Bot file
             string rootDialog = string.Empty;
-            var botFile = Configuration.GetSection("Bot").Get<BotFile>();
+            var botFile = Configuration.GetSection("bot").Get<BotFile>();
             var botProject = BotProject.Load(botFile);
             rootDialog = botProject.entry;
            
