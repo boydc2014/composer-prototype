@@ -25,7 +25,7 @@ An extention is used to provide an editor for a certain type of bot content. It 
 
 All editors is loaded as extensions.
 
-We are NOT targeting non-editor extension at this time, even thought the mechanism described here is a general extension system for any html pages.
+We are NOT targeting non-editor extension at this time, even thought the mechanism described here is a general extension system for any html page.
 
 ## What's an extension? what's in it
 An extension is an standalone javascript package located under `src/extensions`. 
@@ -58,8 +58,9 @@ A sample package.json looks like this
 ### registeration
 In the configuration above, with the "contributes" section in package.json, an extension has already declared what this  extension is used for: it's an extension targeting .lu files.
 
+Then if you put this package under `src/extensions`, you've already finished the registeration. 
+
 ### discovery
-Then if you put this package under `src/extension`, you've already finished the registeration. 
 
 All packages under `src/extensions` folder would be discovered, and the output of each extensoin (it's html) will be copied into the build artificat folder of the composer app. Then served by the composer. See more details about [extension serving]. 
 
@@ -90,7 +91,7 @@ We may use a combine of shared mode and dedicated mode. In this prototype, we sh
 
 Either or, the extension don't have to worry about how it's gone to be loaded, and hosted, it should focus on how to interact with composer. 
 
-## how to interact with the host(composer)?
+## How to interact with the host(composer)?
 
 
 ### messaging API
@@ -101,6 +102,7 @@ The way the window inside IFrame conmunicate with the parent window is usually u
 
   this allows you to send a message to a certain window. Both sides in the IFrame holds each other's reference, so it can use this api to post message. 
 * [window.addEventListener](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener)
+
   This allows you to listen on the messages being passed in. the postMessage api will pass data in the `message` endpoint. So usually a call is looks like this 
 
     ```
@@ -117,7 +119,9 @@ two good reference to this approach are
 1. [Two way iframe communication](https://gist.github.com/pbojinov/8965299)
 2. [VSCode webview api](https://code.visualstudio.com/api/extension-guides/webview#scripts-and-message-passing)
 
+The way we used here is pretty much the same way with VSCode.
 ### data-in story
+
 
 
 ### data-out story
