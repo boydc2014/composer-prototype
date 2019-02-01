@@ -128,27 +128,25 @@ Composer will iteract with two components, so there is two sections in package.j
         path: "../../Bots/SampleBot1/bot1.bot"
     }
     
-    // this is the config used to start the Launcher
     launcher: {
-        rootDir: "../../BotLauncher/CSharp"
-        startCommand: "cp launcher.json ../../BotLauncher/CSharp && dotnet start"
+        startCommand: "cp launcher.json '../../BotLauncher/CSharp/appsetings.json' && cd '../../BotLauncher/CSharp' && dotnet run"
     }
 }
 ```
 
 It's very self-explained, the "bot" section tell the composer where the bot is, the "launcher" section tell the composer how to play with the launcher. 
 
-there is also a `launcher.json` inside composer, which is designed to override the config inside launcher, to make sure the launcher is started the way composer wants.
+there is also a `launcher4CS.json` inside composer, which is designed to override the config inside launcher, to make sure the launcher is started the way composer wants.
 
 ``` 
-/Composer/launcher.json (same schema as /BotLauncher/CSharp/appsettings.json)
+/Composer/launcher4CS.json (same schema as /BotLauncher/CSharp/appsettings.json)
 
 this whole file will be copied to the Bot Launcher folder to start Launcher
 
 {
     bot: {
         provider: "localDisk",
-        path: "../../Bots/SampleBot1/bot1.bot
+        path: "C://Bots/SampleBot1/bot1.bot"  // note there the value is faltten, become this is supposed to copied into 
     }
 
     // it may include some othe info to run like
@@ -160,7 +158,7 @@ So, if you look at the startCommand of launcher in package.json (insider compose
 
 An alertative way to this "copy and start" is to tell the launcher config file using command line such as
 ```
-  dotnet start -f launcher.json
+  dotnet run -f launcher4CS.json
 ```
 
 this may also make sense. but the way we see the benifits of the copy and start approach can help make sure the configuration is complete in the launcher folder, thus it won't block the later deployment step. 
