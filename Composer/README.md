@@ -3,7 +3,7 @@ The web app that can edit bots in OBI format, and can use Bot Launcher to run bo
 
 # Instructions
 
-Pre-require:
+prerequisite:
 * node\npm
 * yarn
 
@@ -12,6 +12,7 @@ in this folder
 ```
 $ yarn install // install dependencies
 $ yarn server // start api server
+// open a new command line window
 $ yarn start  // start front end
 ```
 then go to http://localhost:3000/, make sure you use Chrome
@@ -119,12 +120,98 @@ two good reference to this approach are
 1. [Two way iframe communication](https://gist.github.com/pbojinov/8965299)
 2. [VSCode webview api](https://code.visualstudio.com/api/extension-guides/webview#scripts-and-message-passing)
 
-The way we used here is pretty much the same way with VSCode.
+Because of the nature of `messaging`, comunication is not done by one single api call. It's requires the sender properly (at the right time, in the right way) send data with certain schema, the receiver also properly get and understand the schema. It requires a protocol or convention here. We followed the convention used in VSCode. 
+
 ### data-in story
+Let's give some real examples and references to code to show data is passed in.
 
+In data-in, the composer is the sender, the extension is the receiver. The convention here, is 
+1. The composer will send the data, right after the extension is loaded
+```
+  /Composer/src/component/Editor.tsx
+  
+  handleLoad = () => {
+    window.frames[0].postMessage({
+      type: 'init',
+      data: this.props.content
+    });
+  }
 
+  public render() {
+    return (
+        <iframe onLoad={this.handleLoad}
+        />
+    );
+  }
+```
+2. The schema is simple with two field, `type` and `data`.
+3. So the extension should be already listening on this message after loaded, here is sample code from an extension
+```
+  /Composer/src/extensions/jsoneditor/src/App.tsx
+  
+  componentDidMount() {
+    window.addEventListener('message',this.handleMessage, false);
+  }
+
+  handleMessage = (event: any) => {
+
+    try {
+      const data = event.data;
+      switch(data.type) {
+        case 'init':
+          ...
+      }
+```
+That's the real extension initlization process, with data passed from composer to extension. You can image, there are other type of messages, can be encoded into this message schema. 
 
 ### data-out story
+
+Let's out give an example of data-out story: the saving process.
+
+After the composer init the extension with some sort of data, the extension will take from there, taking control all the rendering and interacting with users. Whenever an user make some changes, the changes is first kept in the editor, and then saved to composer.
+
+In the saving process, the extension is the sender, the composer is the receiver
+
+1. The extension can assume the composer is always listening at certain point for saving data, so just send it
+```
+    /Composer/src/extensions/jsoneditor/src/composerApi.tsx
+
+
+    constructor() {
+        this.originalPostMessage = window.parent.postMessage.bind(window.parent);
+    }
+
+    postMessage = (msg: any) => {
+        return this.originalPostMessage({ command: 'onmessage', data: msg }, '*');
+    }
+
+    save = (code: string) => {
+        const data = {
+            'type':'save',
+            'message': code 
+        }
+        this.postMessage(data);
+    }
+    
+```
+   here the send is done in this composerApi.tsx, it's just a helper class to send message
+   
+2. In the receiver side, it should already listening that
+```
+   /Composer/src/component/Editor.tsx
+   handleMessageEvent = (e:any) => {
+    if(e.data.command && e.data.command === 'onmessage') {
+      const data = e.data.data;
+     
+      switch(data.type) {
+        case 'save':
+          ....
+      }
+    }
+  }
+```
+it's similar to the data-in story, with a slightly difference that: at the main window, too much events can happen, so we have an extra field (command==='onmessage') to identify this is a message from extension.  This might not be necessary, but we just borrow that from VS code.
+
 
 
 
