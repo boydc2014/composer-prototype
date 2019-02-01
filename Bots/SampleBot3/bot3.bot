@@ -1,7 +1,8 @@
 {
-    "name": "BotLauncherTestBot",
-    "description": "This is a Test bot",
-    "dialogs": [
+    "services": [
+    ],
+    "files": [
 		"main.dialog"
     ],
+    "entry": "main.dialog"
 }

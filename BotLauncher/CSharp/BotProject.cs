@@ -15,12 +15,10 @@ namespace Microsoft.Bot.Builder.TestBot.Json
 
     public class BotProject
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("description")]
-        public string Description { get; set; }
-        [JsonProperty("Dialogs")]
-        public List<string> Dialogs { get; set; }
+        [JsonProperty("files")]
+        public List<string> Files { get; set; }
+        [JsonProperty("entry")]
+        public string entry { get; set; }
         public string path { get; set; }
 
         public static async Task<BotProject> LoadAsync(BotFile botFile)
