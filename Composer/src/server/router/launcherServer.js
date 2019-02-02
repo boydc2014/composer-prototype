@@ -10,12 +10,24 @@ var isStart = false;
 
 var child = null;
 
+const parseConfigIntoParams = () => {
+    //format:
+    //dotnet run --key1=value1 --key2:childkey2=value2 --key3:childkey3:grandsonkey3=value3
+    let result = '';
+    result += ` --bot:provider=${config.bot.provider}`;
+    result += ` --bot:path=${config.bot.path}`;
+    return result;
+}
+
 router.get("/start", function(req, res, next) {
     try {
         if(isStart)
             throw new Error('has already started');
 
-            child = process.exec(config.launcher.startCommand, (err, stdout, stderr) => {
+            let originCommand = config.launcher.startCommand;
+            let command = originCommand + parseConfigIntoParams();
+            console.log(command)
+            child = process.exec(command, (err, stdout, stderr) => {
             if (err) {
                 console.log(err);
                 return;

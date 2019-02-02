@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Bot.Builder.TestBot.Json
 {
@@ -15,6 +16,10 @@ namespace Microsoft.Bot.Builder.TestBot.Json
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddCommandLine(args);
+                })
                 .UseStartup<Startup>()
                 .Build();
     }
