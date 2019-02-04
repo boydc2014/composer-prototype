@@ -1,10 +1,10 @@
 # Composer
 The web app that can edit bots in OBI format, and can use Bot Launcher to run bot.
 
-# Instructions
+### Instructions
 
 prerequisite:
-* node\npm
+* node > 8.0
 * yarn
 
 in this folder
@@ -15,32 +15,35 @@ $ yarn server // start api server
 // open a new command line window
 $ yarn start  // start front end
 ```
-then go to http://localhost:3000/, make sure you use Chrome
 
+then go to http://localhost:3000/, best experienced in Chrome 
 
-# Extensions
+###Extensions
 Composer is built with an extension system, this project shows samples of the extension system
 
-## What's an extension for
+#### What's an extension for
 An extention is used to provide an editor for a certain type of bot content. It can be .lu, .lg, .dialog, etc.
 
-All editors is loaded as extensions.
+All editors are loaded as extensions.
 
-We are NOT targeting non-editor extension at this time, even thought the mechanism described here is a general extension system for any html page.
+Non-editor extension are not supported at this time, though the mechanisms for providing extensions will scale outside the dialog editor's.
 
-## What's an extension? what's in it
-An extension is an standalone javascript package located under `src/extensions`. 
+#### What's an extension? what's in it
+Each extension is a dependency inside the Composes `extensions` package (via yarn workspaces)
 
-An extension should produce one and only one html page to be loaded in the composer. 
+Example path:
 
-An extension must have a package.json which describe two things
+`/src/extensions/node_modules/@botframework/editors`
+
+An extension should produce a single React component that can render 1..N editors that it wants to provide editing experience for.
+
+An extension must have a package.json which describes the following:
 1. The name of this extension
 2. The type of content is this extension used for
 3. The location where to find it's output
 
 A sample package.json looks like this
 ```
-/src/extensions/lueditor/package.json
 
 {
     contributes: {
@@ -56,7 +59,7 @@ A sample package.json looks like this
 
 ## How an extension is registered, discovered, loaded, hosted?
 
-### registeration
+### registration
 In the configuration above, with the "contributes" section in package.json, an extension has already declared what this  extension is used for: it's an extension targeting .lu files.
 
 Then if you put this package under `src/extensions`, you've already finished the registeration. 
