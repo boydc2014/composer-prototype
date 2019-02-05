@@ -8,7 +8,7 @@ The prototype of BF composer, showing the architecture, and the extension system
 
 This prototype includes two components
 
-####application
+#### application
 
   A web app providing an editing experience on bot assets. The application has access to any bots made available to it from the `bots` property in `config.json`. See below for more details. In addition to bot-specific concerns, the application has features to enable common user scenarios like routing, state-management, and authentication.
 
@@ -16,7 +16,7 @@ This prototype includes two components
 
   The application will be able to host 3rd-party javascript, html, & css. The isolation mechanism in doing so is through use of `<iframe />` tags. We will expose an interface for 1P and 3P partners to provide "extensions" in the application, and be able to extend their extensions for reuse in their instance of Composer.
 
-####launcher
+#### launcher
   The BotLauncher is at its core the OBI type-loader. Given bot assets or a path to find them, the BotLauncher uses the OBI type-loader to generate a dialog tree in memory. Currently the BotLauncher also starts the bots runtime and exposes the web endpoint to communicate with the bot.
 
   Given signal and appropriate payload, the BotLauncher can build a dialog tree and start up a bot at the users requested location (endpoint/port). and start a bot instance and have it ready to serve at a public endpoint. The application's view layer/channel will then be able to connect to it during a conversational design session and interact with the dialog tree.
@@ -25,7 +25,7 @@ This prototype includes two components
 
   The launcher can be configured to watch the bot assets (.lu, .lg, .dialog, etc) and reload the bot runtime when a change in these files are observed.
 
-####bots
+#### bots
 Each bot is defined by a ".bot" file, which includes all the references to the assets this bot would use. Only declarative files live in this folder.
 
 **note** this is not the shape of the .bot file currently used in SDK v4 of Bot Framework Emulator. The structure of the .bot file in Composer is subject to change. 
