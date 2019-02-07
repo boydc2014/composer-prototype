@@ -18,7 +18,7 @@ $ yarn start  // start front end
 
 then go to http://localhost:3000/, best experienced in Chrome 
 
-###Extensions
+### Extensions
 Composer is built with an extension system, this project shows samples of the extension system
 
 #### What's an extension for
