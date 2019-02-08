@@ -6,24 +6,18 @@ var process = require('child_process');
 var config = require('../../../config.json');
 
 
-var isStart = false;
+var connectorFactory = require('../launcher-connectors/connectorFactory').ConnectorFactory;
+var launcherStatus = require('../launcher-connectors/interface').LauncherStatus;
 
-var child = null;
+var connector = new connectorFactory().CreateConnector(config.launcherConnector);
 
 router.get("/start", function(req, res, next) {
     try {
-        if(isStart)
-            throw new Error('has already started');
+         if (connector.status == launcherStatus.Running) {
+             throw new Error("Already running");
+         }
 
-            child = process.exec(config.launcher.startCommand, (err, stdout, stderr) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-         });
-         isStart = true;
+         connector.start();
          res.send('OK');
     } catch (error) {
         res.status(400).json({error:'Start error'});
@@ -32,13 +26,11 @@ router.get("/start", function(req, res, next) {
 
 router.get("/stop", function(req, res, next) {
     try {
-        if(!isStart)
-            throw new Error();
+        if (connector.status == launcherStatus.Stopped) {
+            throw new Error("Already stopped");
+        }
 
-        // This line, for some reason, can not kill the web service
-        // TODO: totally revisit this, and use a more reasonable approach for managing subprocesses
-        child.kill();
-        isStart = false;
+        connector.stop();
         res.send('OK');
     } catch (error) {
         res.status(400).json({error: 'Stop error'});
@@ -46,7 +38,7 @@ router.get("/stop", function(req, res, next) {
 });
 
 router.get("/status", function(req, res, next) {
-    res.send(isStart ? "Running":"Stopped");
+    res.send(connector.status == launcherStatus.Runnig ? "Running":"Stopped");
 })
 
 module.exports = router;
