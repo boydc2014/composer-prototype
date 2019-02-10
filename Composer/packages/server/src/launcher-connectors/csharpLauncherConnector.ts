@@ -1,7 +1,7 @@
 import {LauncherConnector, LauncherStatus} from './interface';
 
 var process = require('child_process');
-var composerConfig = require('../../../config.json');
+var composerConfig = require('../config.json');
 
 export class CSharpLauncherConnector implements LauncherConnector {
 

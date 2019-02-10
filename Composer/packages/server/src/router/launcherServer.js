@@ -3,7 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var path = require('path');
 var process = require('child_process');
-var config = require('../../../config.json');
+var config = require('../config.json');
 
 
 var connectorFactory = require('../launcher-connectors/connectorFactory').ConnectorFactory;

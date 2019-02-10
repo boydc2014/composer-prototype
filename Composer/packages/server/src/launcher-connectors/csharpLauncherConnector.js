@@ -1,6 +1,6 @@
 var interface_1 = require('./interface');
 var process = require('child_process');
-var composerConfig = require('../../../config.json');
+var composerConfig = require('../config.json');
 var CSharpLauncherConnector = (function () {
     function CSharpLauncherConnector(config) {
         var _this = this;
