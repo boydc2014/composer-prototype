@@ -1,0 +1,9 @@
+{
+    "name": "composer-root",
+    "private": true,
+    "workspaces": [
+        "packages/client",
+        "packages/server",
+        "packages/extensions/*"
+    ]
+}
