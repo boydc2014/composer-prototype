@@ -11,6 +11,15 @@ var launcherStatus = require('../launcher-connectors/interface').LauncherStatus;
 
 var connector = new connectorFactory().CreateConnector(config.launcherConnector);
 
+const parseConfigIntoParams = () => {
+    //format:
+    //dotnet run --key1=value1 --key2:childkey2=value2 --key3:childkey3:grandsonkey3=value3
+    let result = '';
+    result += ` --bot:provider=${config.bot.provider}`;
+    result += ` --bot:path=${config.bot.path}`;
+    return result;
+}
+
 router.get("/start", function(req, res, next) {
     try {
          if (connector.status == launcherStatus.Running) {

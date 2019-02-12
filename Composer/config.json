@@ -3,9 +3,8 @@
         "provider": "localDisk",
         "path": "../Bots/SampleBot3/bot3.bot"
     },
-
     "launcherConnector": {
-        "type": "CSharp", 
+        "type": "CSharp",
         "path": "../BotLauncher/CSharp"
     }
 }
