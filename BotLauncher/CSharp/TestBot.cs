@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Builder.TestBot.Json
         public TestBot(TestBotAccessors accessors)
         {
             // create the DialogSet from accessor
-            rootDialog = DialogLoader.Load(File.ReadAllText(accessors.RootDialogFile));
+            rootDialog = CognitiveLoader.Load<IDialog>(File.ReadAllText(accessors.RootDialogFile));
 
             _dialogs = new DialogSet(accessors.ConversationDialogState);
             _dialogs.Add(rootDialog);
