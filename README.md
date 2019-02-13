@@ -47,7 +47,11 @@ Here is a overview of a potential folder structure
     |  |____runtime.js
 
     Composer
-    |____config.json
+    |____pacakges
+    |  |____client           // main web app
+    |  |____server           // api server
+    |  |  |____config.json 
+    |  |____extensions       // extensions
 
     Echo-bot
     |____bot.bot
@@ -81,8 +85,8 @@ Here is an example of a .bot file, with glob patterns for bot asset discovery.
     "./**/*.lg",
     "./**/*.dialog"
   ]
-
-  dialogEntry: "./dialogs/start.dialog",
+ 
+  entry: "./dialogs/main.cog",     // call entry instead of entryDialog, because it might not be a 'Dialog'
 }
 ```
 
@@ -96,23 +100,25 @@ the .bot file is used for the following:
 
 ## Composer configuration
 
-### config.json
+### packages/server/config.json
+
+server is api server of Composer web app, which is also the component that work with local files and talk to bot launcher to run bot. 
 
 ```
 {
-  // the path to the BotLauncher root
-  launcherDir: "../../BotLauncher",
-  bots: [
-    //an array of bots to load in this application
-    {
-      path: "../../Bots/SampleBot1/bot1.bot",
-      secrets: "../path/to/appsettings.json"
+    // define which bot this composer is editing
+    "bot": {
+        "provider": "localDisk",
+        "path": "../../../Bots/SampleBot3/bot3.bot"
     },
-    {
-      path: "../../Bots/SampleBot2/bot2.bot",
-      secrets: "../path/to/local.env"
+
+    // define which connector this composer is using to talk to launcher
+    // each type of connector knows how to invoke and talk to certain type of bot launcher
+    // it's not the concern of the composer
+    "launcherConnector": {
+        "type": "CSharp", 
+        "path": "../BotLauncher/CSharp"
     }
-  ]
 }
 ```
 

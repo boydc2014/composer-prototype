@@ -1,0 +1,10 @@
+{
+    "bot": {
+        "provider": "localDisk",
+        "path": "../../../SampleBots/SampleBot3/bot3.bot"
+    },
+    "launcherConnector": {
+        "type": "CSharp",
+        "path": "../BotLauncher/CSharp"
+    }
+}
