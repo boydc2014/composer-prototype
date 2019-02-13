@@ -85,8 +85,8 @@ Here is an example of a .bot file, with glob patterns for bot asset discovery.
     "./**/*.lg",
     "./**/*.dialog"
   ]
-
-  entry: "./dialogs/start.dialog",
+ 
+  entry: "./dialogs/main.cog",     // call entry instead of entryDialog, because it might not be a 'Dialog'
 }
 ```
 
