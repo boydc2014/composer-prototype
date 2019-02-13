@@ -47,7 +47,11 @@ Here is a overview of a potential folder structure
     |  |____runtime.js
 
     Composer
-    |____config.json
+    |____pacakges
+    |  |____client           // main web app
+    |  |____server           // api server
+    |  |  |____config.json 
+    |  |____extensions       // extensions
 
     Echo-bot
     |____bot.bot
