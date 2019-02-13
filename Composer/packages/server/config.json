@@ -1,7 +1,7 @@
 {
     "bot": {
         "provider": "localDisk",
-        "path": "../../../Bots/SampleBot3/bot3.bot"
+        "path": "../../../SampleBots/SampleBot3/bot3.bot"
     },
 
     "launcherConnector": {
