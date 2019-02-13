@@ -1,5 +1,5 @@
 {
-  "name": "JsonEditor",
+  "name": "@composer-extensions/sample-json-editor",
   "version": "1.0.0",
   "description": "JsonEditor React component",
   "main": "lib/index.js",

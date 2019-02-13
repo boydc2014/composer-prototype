@@ -84,13 +84,12 @@ class App extends Component {
       editor = <Editor data={data} onChange={this.onChange} />
     }
 
-
     return (
       <div className="App">
-        <header className="App-header">
+        <div className="App-header">
           <div className="header-aside">Composer</div>
-        </header>
-        <aside className="App-sidebar">
+        </div>
+        <div className="App-sidebar">
           <nav>
           <ul>
               {files.length > 0 && files.map((item, index)=>{
@@ -102,13 +101,12 @@ class App extends Component {
               })}
             </ul>
           </nav>
-        </aside>
+        </div>
         <div className="App-iframe">
         
-
-        
         <Frame style={{"border":"0px", "width":"100%", "height":"100%"}}
-         initialContent={`<!DOCTYPE html><html class="frame-html"><head>${this.getStyles()}</head><body class="frame-body"><div class="frame-root"></div></body></html>`}>
+               initialContent={`<!DOCTYPE html><html class="frame-html"><head>${this.getStyles()}</head><body class="frame-body"><div class="frame-root"></div></body></html>`}
+            >
           
            {editor}
            

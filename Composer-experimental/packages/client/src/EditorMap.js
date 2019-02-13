@@ -1,6 +1,6 @@
 // this is currently hard-coded here
 
-import JsonEditor from 'JsonEditor'
+import JsonEditor from '@composer-extensions/sample-json-editor'
 
 const EditorMap = {
     '.bot' : JsonEditor,
