@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import AceEditor from 'react-ace';
 
+import 'brace/mode/json';
+import 'brace/theme/monokai';
+
 class JsonEditor extends Component {
 
   constructor(props) {
@@ -11,7 +14,6 @@ class JsonEditor extends Component {
     return (
       <AceEditor
         mode="json"
-        theme="monokai"
         name="blah2"
         height="100%"
         width="100%"

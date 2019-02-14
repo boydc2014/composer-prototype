@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       files: [],
       index: -1,  // index of the file been editing
-      editor: ""  // editor been using
+      editor: "",  // editor been using
+      botStatus: "stopped"
     }
   }
 
@@ -45,8 +46,8 @@ class App extends Component {
 
   getFiles() {
     axios.get('http://localhost:5000/api/fileserver')
-    .then((response:any) => {
-      const state:any = {files:response.data}
+    .then((response) => {
+      const state = {files:response.data}
       if(response.data.length > 0) {
         const suffix = this.getSuffix(response.data[0].name)
         state.editor = getEditor(suffix);
@@ -62,8 +63,46 @@ class App extends Component {
     return fileName.substring(fileName.lastIndexOf('.'));
   }
 
-  onChange(newValue) {
-    console.log(newValue);
+  onChange = (newValue) => {
+    var payload = {
+      name: this.state.files[this.state.index].name,
+      content: newValue
+    }
+    
+    axios.put('http://localhost:5000/api/fileserver', payload)
+    .then(res => {
+      console.log("save success");
+    })
+    .catch(err => {
+      console.log(err);
+      console.log("save failed");
+    });
+    
+    console.log(payload);
+  }
+
+  toggleBot = () => {
+    if (this.state.botStatus === 'stopped') {
+
+      axios.get('http://localhost:5000/api/launcher/start')
+      .then((response) => {
+        
+        this.setState({botStatus:'running'})
+      }).catch(function(res){
+        console.log(res);
+      });
+
+
+    } else {
+
+      axios.get('http://localhost:5000/api/launcher/stop')
+      .then((response) => {
+        
+        this.setState({botStatus:'stopped'})
+      }).catch(function(res){
+        console.log(res);
+      });
+    }
   }
 
   render() {
@@ -103,14 +142,24 @@ class App extends Component {
           </nav>
         </div>
         <div className="App-iframe">
-        
+     
         <Frame style={{"border":"0px", "width":"100%", "height":"100%"}}
                initialContent={`<!DOCTYPE html><html class="frame-html"><head>${this.getStyles()}</head><body class="frame-body"><div class="frame-root"></div></body></html>`}
             >
-          
-           {editor}
-           
+              {editor}
         </Frame>
+        </div>
+        <div className="App-bot">
+           <div className="bot-button" onClick={this.toggleBot}>
+              {this.state.botStatus === "running"? "Stop Bot":"Start Bot"}
+           </div>
+           <div className="bot-message">
+              {this.state.botStatus === "running"? 
+                <div> Bot is running at http://localhost:3979</div>
+               :
+                ""
+              }
+           </div>
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
 import {LauncherConnector, LauncherStatus} from './interface';
 
 var process = require('child_process');
-var composerConfig = require('../../../config.json');
+var composerConfig = require('../config.json');
 
 export class CSharpLauncherConnector implements LauncherConnector {
 
@@ -16,11 +16,23 @@ export class CSharpLauncherConnector implements LauncherConnector {
     public status: LauncherStatus = LauncherStatus.Stopped;
 
     start = () => {
-       console.log(`Starting launcher at path: ${this.path}`);
+        console.log("Current dir:")
+        console.log(process.cwd())
 
-       this.child = process.exec(`cd ${this.path} &&  ${this.command} --bot:provider=${composerConfig.bot.provider} --bot:path=${composerConfig.bot.path}`);
-       this.status = LauncherStatus.Running;
-       return true;
+        const cmd = `cd ${this.path} &&  ${this.command} --bot:provider=${composerConfig.bot.provider} --bot:path=${composerConfig.bot.path}`;
+        console.log("Starting launcher with command " + cmd);
+
+        this.child = process.exec(cmd, (error, stdout, stderr) => {
+            if (error) {
+              console.error(`error: ${error}`);
+              return;
+            }
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
+          });
+        
+        this.status = LauncherStatus.Running;
+        return true;
     }
 
     stop = () => {

@@ -31,6 +31,18 @@
   color: white;
 }
 
+.App-bot  {
+  position: fixed;
+  width: 400px;
+  top: 0;
+  height: 50px;
+  bottom: 0;
+  right: 0;
+  color: white;
+  display: inline;
+}
+
+
 .App-sidebar ul, .App-sidebar li {
   padding: 5px;
   margin: 0;
