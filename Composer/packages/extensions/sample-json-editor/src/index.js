@@ -26,6 +26,7 @@ class JsonEditor extends Component {
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
           fontSize: 16,
+          height: "100%",
           minHeight: "500px"
         }}
         />
