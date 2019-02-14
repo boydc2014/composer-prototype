@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       files: [],
       index: -1,  // index of the file been editing
-      editor: ""  // editor been using
+      editor: "",  // editor been using
+      botStatus: "stopped"
     }
   }
 
@@ -80,6 +81,30 @@ class App extends Component {
     console.log(payload);
   }
 
+  toggleBot = () => {
+    if (this.state.botStatus === 'stopped') {
+
+      axios.get('http://localhost:5000/api/launcher/start')
+      .then((response) => {
+        
+        this.setState({botStatus:'running'})
+      }).catch(function(res){
+        console.log(res);
+      });
+
+
+    } else {
+
+      axios.get('http://localhost:5000/api/launcher/stop')
+      .then((response) => {
+        
+        this.setState({botStatus:'stopped'})
+      }).catch(function(res){
+        console.log(res);
+      });
+    }
+  }
+
   render() {
     const files = this.state.files;
     const Editor = this.state.editor;
@@ -123,6 +148,18 @@ class App extends Component {
             >
               {editor}
         </Frame>
+        </div>
+        <div className="App-bot">
+           <div className="bot-button" onClick={this.toggleBot}>
+              {this.state.botStatus === "running"? "Stop Bot":"Start Bot"}
+           </div>
+           <div className="bot-message">
+              {this.state.botStatus === "running"? 
+                <div> Bot is running at http://localhost:3979</div>
+               :
+                ""
+              }
+           </div>
         </div>
       </div>
     );

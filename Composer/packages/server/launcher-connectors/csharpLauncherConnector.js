@@ -8,8 +8,18 @@ var CSharpLauncherConnector = (function () {
         this.child = null;
         this.status = interface_1.LauncherStatus.Stopped;
         this.start = function () {
-            console.log("Starting launcher at path: " + _this.path);
-            _this.child = process.exec("cd " + _this.path + " &&  " + _this.command + " --bot:provider=" + composerConfig.bot.provider + " --bot:path=" + composerConfig.bot.path);
+            console.log("Current dir:");
+            console.log("Starting launcher with command " + cmd);
+            var cmd = "cd " + _this.path + " &&  " + _this.command + " --bot:provider=" + composerConfig.bot.provider + " --bot:path=" + composerConfig.bot.path;
+            console.log("Starting launcher with command " + cmd);
+            _this.child = process.exec(cmd, function (error, stdout, stderr) {
+                if (error) {
+                    console.error("error: " + error);
+                    return;
+                }
+                console.log("stdout: " + stdout);
+                console.log("stderr: " + stderr);
+            });
             _this.status = interface_1.LauncherStatus.Running;
             return true;
         };
