@@ -68,7 +68,14 @@ class App extends Component {
       name: this.state.files[this.state.index].name,
       content: newValue
     }
+
+    var newFiles = this.state.files.slice();
+    newFiles[this.state.index].content = newValue;
+    this.setState({
+      files: newFiles
+    });
     
+
     axios.put('http://localhost:5000/api/fileserver', payload)
     .then(res => {
       console.log("save success");

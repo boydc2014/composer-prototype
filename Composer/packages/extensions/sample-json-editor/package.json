@@ -20,7 +20,8 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "react-ace": "^6.4.0"
+    "prismjs": "^1.15.0",
+    "react-simple-code-editor": "^0.8.0"
   },
   "peerDependencies": {
     "react": "16.x"

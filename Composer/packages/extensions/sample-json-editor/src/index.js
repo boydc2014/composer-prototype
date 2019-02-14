@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import AceEditor from 'react-ace';
-
-import 'brace/mode/json';
-import 'brace/theme/monokai';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
 
 class JsonEditor extends Component {
 
@@ -10,26 +11,24 @@ class JsonEditor extends Component {
     super(props);
   }
 
+  onChange = (newValue) => {
+    this.props.onChange(newValue);
+  }
+
   render() {
+
     return (
-      <AceEditor
-        mode="json"
-        name="blah2"
-        height="100%"
-        width="100%"
-        onChange={this.props.onChange}
-        fontSize={18}
-        showPrintMargin={true}
-        showGutter={true}
-        highlightActiveLine={true}
+      <Editor
         value={this.props.data}
-        setOptions={{
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        enableSnippets: true,
-        showLineNumbers: true,
-        tabSize: 2
-        }}/>
+        onValueChange={this.onChange}
+        highlight={code => highlight(code, languages.js)}
+        padding={10}
+        style={{
+          fontFamily: '"Fira code", "Fira Mono", monospace',
+          fontSize: 16,
+          minHeight: "500px"
+        }}
+        />
     );
   }
 }

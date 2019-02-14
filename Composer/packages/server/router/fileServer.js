@@ -31,6 +31,7 @@ router.get("/", function(req, res, next) {
         }
         res.status(200).json(fileList);
     } catch (error) {
+        console.log(error);
         res.status(400).json({error: 'get file list error'});
     }
 });
