@@ -45,8 +45,8 @@ class App extends Component {
 
   getFiles() {
     axios.get('http://localhost:5000/api/fileserver')
-    .then((response:any) => {
-      const state:any = {files:response.data}
+    .then((response) => {
+      const state = {files:response.data}
       if(response.data.length > 0) {
         const suffix = this.getSuffix(response.data[0].name)
         state.editor = getEditor(suffix);
@@ -62,8 +62,22 @@ class App extends Component {
     return fileName.substring(fileName.lastIndexOf('.'));
   }
 
-  onChange(newValue) {
-    console.log(newValue);
+  onChange = (newValue) => {
+    var payload = {
+      name: this.state.files[this.state.index].name,
+      content: newValue
+    }
+    
+    axios.put('http://localhost:5000/api/fileserver', payload)
+    .then(res => {
+      console.log("save success");
+    })
+    .catch(err => {
+      console.log(err);
+      console.log("save failed");
+    });
+    
+    console.log(payload);
   }
 
   render() {
@@ -103,13 +117,11 @@ class App extends Component {
           </nav>
         </div>
         <div className="App-iframe">
-        
+     
         <Frame style={{"border":"0px", "width":"100%", "height":"100%"}}
                initialContent={`<!DOCTYPE html><html class="frame-html"><head>${this.getStyles()}</head><body class="frame-body"><div class="frame-root"></div></body></html>`}
             >
-          
-           {editor}
-           
+              {editor}
         </Frame>
         </div>
       </div>
