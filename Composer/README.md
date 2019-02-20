@@ -50,6 +50,20 @@ After `yarn install` the path would look like:
 
 An extension should produce a single React component that can render 1..N editors that it wants to provide an editing experience for.
 
+### Why React componnet?  
+
+There are many options to choose when picking an abstraction for an extension. Different level abstractions have different impacts on many aspects, like developing, testing, debuging and running the extension. 
+
+A low-level abstraction like HTML page will give us perfect isolation, great flexibilty (use whatever language you want to build that), but usually result in a relatively high amount of effort to develop a robust api between host and extension because it's using the low-level messaging primitives, and also not good for performance because of the extreme isolation. 
+
+A high-level abstraction like React component, will cost a little bit on isolation, but gain the best support from a mature and powerful framework, in every cycle of the development of extensions. It will help most of boosting the productivity, simplifying the architecure, and gain the best performance. 
+
+Based on our scenario, we will use React as a start point, and host the extension in an `<IFrame>` to gain a certain level of isolation, for two major reasons:
+ 
+* we favor produtivity, simplicity, performance at this point over extreme isolation, more choices when developing extensions. We don't expect there are so many extension developers like VS Code . :)  
+* we can always go low-level whenever we see fit, all extensions will still work then, not but visa-verse
+
+
 ### How an extension is discovered, registered, loaded, & hosted
 
 #### registration
