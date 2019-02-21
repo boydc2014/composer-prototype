@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Builder.TestBot.Json
                 json = await stream.ReadToEndAsync().ConfigureAwait(false);
             }
             var bot = JsonConvert.DeserializeObject<BotProject>(json);
-            var index = file.LastIndexOf("/");
+            var index = file.LastIndexOf("\\");
             if (index > 0)
             {
                 bot.path = file.Substring(0, index + 1);
