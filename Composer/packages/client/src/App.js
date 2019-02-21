@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import axios from 'axios';
 import getEditor from './EditorMap';
-import Frame, { FrameContextConsumer } from 'react-frame-component'
+import Frame from 'react-frame-component'
 import './App.css';
 
 class App extends Component {
