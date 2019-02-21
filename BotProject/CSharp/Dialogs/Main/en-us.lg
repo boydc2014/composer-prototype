@@ -1,10 +1,9 @@
-﻿# welcome-user
+# welcome-user
 - Hi {name}
 - Howdy {name} :)
 
-# prompt-country
-- I have a few questions {name}, where were you born?
-- Yo {name}, where u from?
+# addedtask
+- I have added {task} to your task list.
 
 # love-country
 - No kidding! {country} is my favourite Country!!!
