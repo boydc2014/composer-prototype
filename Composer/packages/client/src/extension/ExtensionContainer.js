@@ -12,7 +12,7 @@ function ExtensionContainer() {
 
     useEffect(() => {
         window.addEventListener("message", receiveMessage, false);
-
+        shellApi.loadSuccess();
         return function removeListener() {
             window.removeEventListener("message", receiveMessage, false);
         }
@@ -28,7 +28,7 @@ function ExtensionContainer() {
 
     return (
         <Fragment>
-            {type === ''?'Welcome'
+            {type === ''?''
             :<Editor editorType={type} data={value} shellApi={shellApi}/>}
         </Fragment>
     )

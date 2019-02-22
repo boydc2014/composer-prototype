@@ -21,6 +21,10 @@ function ExtensionContainerWrapper(porps) {
         if(event.data.from && event.data.from === 'editor') {
             const commond = event.data.commond;
             switch(commond) {
+                //need to use the load event of the document contained in the iframe, not the iframe itself.
+                case 'onLoad':
+                    postMessage();
+                    break;
                 case 'save':
                     onChange(event.data.data);
                     break;
@@ -30,17 +34,12 @@ function ExtensionContainerWrapper(porps) {
         }
     } 
 
-    //need to use the load event of the document contained in the iframe, not the iframe itself.
-    function extensionOnload() {
-        postMessage()
-    }
-
     function postMessage() {
         iframeEl.current.contentWindow.postMessage({editorType, data})
     }
 
     return (
-        <iframe ref={iframeEl} title={column} style={{height:'100%', width:'100%'}} src='/extensionContainer.html' onLoad={extensionOnload}/>
+        <iframe ref={iframeEl} title={column} style={{height:'100%', width:'100%'}} src='/extensionContainer.html'/>
     )
 }
 
