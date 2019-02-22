@@ -1,7 +1,7 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, useMemo, Fragment} from 'react';
 import './extensionContainer.css';
 import ShellApi from './ShellApi';
-import Editor from './Editor';
+import getEditor from './EditorMap';
 
 function ExtensionContainer() {
 
@@ -9,6 +9,7 @@ function ExtensionContainer() {
     const [type, setType] = useState('');
 
     const shellApi = new ShellApi();
+    let RealEditor = "";
 
     useEffect(() => {
         window.addEventListener("message", receiveMessage, false);
@@ -17,6 +18,12 @@ function ExtensionContainer() {
             window.removeEventListener("message", receiveMessage, false);
         }
     }, [])
+    
+    useMemo(() => {
+        if(type !== "") {
+            RealEditor = getEditor(type)
+        }
+    })
 
     function receiveMessage(event) {
         if(event.source === window.parent) {
@@ -28,8 +35,8 @@ function ExtensionContainer() {
 
     return (
         <Fragment>
-            {type === ''?''
-            :<Editor editorType={type} data={value} shellApi={shellApi}/>}
+            {RealEditor === ''?''
+            :<RealEditor data={value} onChange={shellApi.saveValue} shellApi={shellApi}/>}
         </Fragment>
     )
 }
