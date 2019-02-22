@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react';
 function ExtensionContainerWrapper(porps) {
 
     const iframeEl = useRef(null);
-    const {editorType, data, column} = porps;
+    const {editorType, data, column, onChange} = porps;
 
     useEffect(() => {
         window.addEventListener("message", receiveMessage, false);
@@ -13,16 +13,34 @@ function ExtensionContainerWrapper(porps) {
         }
     }, [])
 
-    function receiveMessage(event) {
+    useEffect(() => {
+        iframeEl.current.contentWindow.postMessage({editorType, data})
+    }, [porps.data])
 
+    function receiveMessage(event) {
+        if(event.data.from && event.data.from === 'editor') {
+            const commond = event.data.commond;
+            switch(commond) {
+                case 'save':
+                    onChange(event.data.data);
+                    break;
+                default:
+                    break;
+            }
+        }
     } 
+
+    //need to use the load event of the document contained in the iframe, not the iframe itself.
+    function extensionOnload() {
+        postMessage()
+    }
 
     function postMessage() {
         iframeEl.current.contentWindow.postMessage({editorType, data})
     }
 
     return (
-        <iframe ref={iframeEl} title={column} src='/extensionContainer.html' onLoad={postMessage}/>
+        <iframe ref={iframeEl} title={column} style={{height:'100%', width:'100%'}} src='/extensionContainer.html' onLoad={extensionOnload}/>
     )
 }
 

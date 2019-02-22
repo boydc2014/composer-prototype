@@ -13,7 +13,7 @@ class httpClient {
         });
     }
 
-    saveFile = (payload, callback) => {
+    saveFile = (payload) => {
         axios.put(baseUrl + 'fileserver', payload)
         .then(res => {
             console.log("save success");

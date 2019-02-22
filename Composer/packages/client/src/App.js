@@ -29,6 +29,19 @@ function App() {
         setIndex(index);
     }
 
+    function handleValueChange(newValue) {
+        var payload = {
+            name: files[index].name,
+            content: newValue
+          }
+      
+          var newFiles = files.slice();
+          newFiles[index].content = newValue;
+          setFiles(newFiles)
+
+          client.saveFile(payload)
+    }
+
     return (
         <Fragment>
             <header className="App-header">
@@ -60,7 +73,7 @@ function App() {
             </aside>
             <main className="App-main">
                 {index > -1? 
-                    <ExtensionContainerWrapper editorType={editorType} data={files[index].content}/> 
+                    <ExtensionContainerWrapper editorType={editorType} data={files[index].content} onChange={handleValueChange}/> 
                     : 'Welcome'}
             </main>
         </Fragment>
