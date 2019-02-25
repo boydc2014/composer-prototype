@@ -1,176 +1,83 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import axios from 'axios';
-import getEditor from './EditorMap';
-import Frame, { FrameContextConsumer } from 'react-frame-component'
+import React, { useState, useEffect, Fragment } from 'react';
 import './App.css';
+import httpClient from './utils/http';
+import ExtensionContainerWrapper from './container/ExtensionContainerWrapper';
 
-class App extends Component {
+function App() {
+    const [files, setFiles] = useState([]);
+    const [index, setIndex] = useState(-1);
+    const [editorType, setEditorType] = useState("");
+    const [botStatus, setBotStatus] = useState("stopped");
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      files: [],
-      index: -1,  // index of the file been editing
-      editor: "",  // editor been using
-      botStatus: "stopped"
-    }
-  }
+    const client = new httpClient();
 
-  // this is extremely useful to make css is referenced
-  getStyles = () => {
-    let head = '';
-    const sheets = Array.from(document.querySelectorAll('link[rel=stylesheet]'));
-    const styles = Array.from(document.querySelectorAll('head style'));
-  
-    sheets.forEach(link => {
-      head += link.outerHTML;
-    });
-  
-    styles.forEach(style => {
-      head += style.outerHTML;
-    });
-  
-    return head;
-  };
+    useEffect(()=> {
+        client.getFiles((files) => {
+            if(files.length > 0) {
+                setFiles(files)
+            }
+        });
+    }, [])
 
-  componentDidMount() {
-    this.getFiles();
-  }
-
-
-  handleFileClick = (file, index) => {
-    const suffix = this.getSuffix(file.name)
-    this.setState({src:getEditor(suffix), 'index':index})
-  }
-
-  getFiles() {
-    axios.get('http://localhost:5000/api/fileserver')
-    .then((response) => {
-      const state = {files:response.data}
-      if(response.data.length > 0) {
-        const suffix = this.getSuffix(response.data[0].name)
-        state.editor = getEditor(suffix);
-        state.index = 0;
-      }
-      this.setState(state)
-    }).catch(function(res){
-      console.log(res);
-    });
-  }
-
-  getSuffix(fileName) {
-    return fileName.substring(fileName.lastIndexOf('.'));
-  }
-
-  onChange = (newValue) => {
-    var payload = {
-      name: this.state.files[this.state.index].name,
-      content: newValue
+    function getSuffix(fileName) {
+        return fileName.substring(fileName.lastIndexOf('.'));
     }
 
-    var newFiles = this.state.files.slice();
-    newFiles[this.state.index].content = newValue;
-    this.setState({
-      files: newFiles
-    });
-    
-
-    axios.put('http://localhost:5000/api/fileserver', payload)
-    .then(res => {
-      console.log("save success");
-    })
-    .catch(err => {
-      console.log(err);
-      console.log("save failed");
-    });
-    
-    console.log(payload);
-  }
-
-  toggleBot = () => {
-    if (this.state.botStatus === 'stopped') {
-
-      axios.get('http://localhost:5000/api/launcher/start')
-      .then((response) => {
-        
-        this.setState({botStatus:'running'})
-      }).catch(function(res){
-        console.log(res);
-      });
-
-
-    } else {
-
-      axios.get('http://localhost:5000/api/launcher/stop')
-      .then((response) => {
-        
-        this.setState({botStatus:'stopped'})
-      }).catch(function(res){
-        console.log(res);
-      });
-    }
-  }
-
-  render() {
-    const files = this.state.files;
-    const Editor = this.state.editor;
-
-    var data = "";
-    if (this.state.index >= 0)
-    {
-      data = this.state.files[this.state.index].content;
+    function handleFileClick (file, index){
+        const suffix = getSuffix(file.name)
+        setEditorType(suffix);
+        setIndex(index);
     }
 
-    var editor = "";
-    if (Editor === ""){
-      editor = <p> No editor yet </p>
-    }
-    else {
-      editor = <Editor data={data} onChange={this.onChange} />
+    function handleValueChange(newValue) {
+        var payload = {
+            name: files[index].name,
+            content: newValue
+          }
+      
+          var newFiles = files.slice();
+          newFiles[index].content = newValue;
+          setFiles(newFiles)
+
+          client.saveFile(payload)
     }
 
     return (
-      <div className="App">
-        <div className="App-header">
-          <div className="header-aside">Composer</div>
-        </div>
-        <div className="App-sidebar">
-          <nav>
-          <ul>
-              {files.length > 0 && files.map((item, index)=>{
-                return <li 
-                  key={item.name}
-                  onClick={()=>{this.handleFileClick(item, index)}}>
-                    {item.name}
-                  </li>
-              })}
-            </ul>
-          </nav>
-        </div>
-        <div className="App-iframe">
-     
-        <Frame style={{"border":"0px", "width":"100%", "height":"100%"}}
-               initialContent={`<!DOCTYPE html><html class="frame-html"><head>${this.getStyles()}</head><body class="frame-body"><div class="frame-root"></div></body></html>`}
-            >
-              {editor}
-        </Frame>
-        </div>
-        <div className="App-bot">
-           <div className="bot-button" onClick={this.toggleBot}>
-              {this.state.botStatus === "running"? "Stop Bot":"Start Bot"}
-           </div>
-           <div className="bot-message">
-              {this.state.botStatus === "running"? 
-                <div> Bot is running at http://localhost:3979</div>
-               :
-                ""
-              }
-           </div>
-        </div>
-      </div>
-    );
-  }
+        <Fragment>
+            <header className="App-header">
+                <div className="header-aside">Composer</div>
+                <div className="App-bot">
+                    <button className="bot-button" onClick={()=>client.toggleBot(botStatus, (status)=>{setBotStatus(status)})}>
+                        {botStatus === "running"? "Stop Bot":"Start Bot"}
+                    </button>
+                    <span className="bot-message">
+                        {
+                            botStatus === "running"? 
+                            "Bot is running at http://localhost:3979":""
+                        }
+                    </span>
+                </div>
+            </header>
+            <aside className="App-sidebar">
+                <nav>
+                    <ul>
+                        {files.length > 0 && files.map((item, index)=>{
+                        return <li 
+                            key={item.name}
+                            onClick={()=>{handleFileClick(item, index)}}>
+                            {item.name}
+                            </li>
+                        })}
+                    </ul>
+                </nav>
+            </aside>
+            <main className="App-main">
+                {index > -1? 
+                    <ExtensionContainerWrapper editorType={editorType} data={files[index].content} onChange={handleValueChange}/> 
+                    : 'Welcome'}
+            </main>
+        </Fragment>
+    )
 }
 
 export default App;
