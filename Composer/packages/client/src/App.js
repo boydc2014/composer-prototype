@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import './App.css';
 import httpClient from './utils/http';
-import ExtensionContainerWrapper from './container/ExtensionContainerWrapper';
+import ExtensionContainerWrapper from './ExtensionContainerWrapper';
 
 function App() {
     const [files, setFiles] = useState([]);
