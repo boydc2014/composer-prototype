@@ -1,0 +1,59 @@
+{
+  "$id": "ShowtNextPageDialog",
+  "$type": "Microsoft.SequenceDialog",
+  "sequence": [
+    {
+      "$type": "Microsoft.CallDialog",
+      "dialog": {
+        "$type": "Microsoft.ConfirmPrompt",
+        "$id": "shownext",
+        "property": "shownext",
+        "pattern": "\\w{3,50}",
+        "initialPrompt": "Do you want to show your next page"
+      },
+      "property": "shownext"
+    },
+    {
+      "$schema": "Microsoft.IfElseStep",
+      "Condition": {
+        "Expression": "shownext == true"
+      },
+      "IfTrue": {
+        "Dialog": {
+          "$schema": "Microsoft.SequenceDialog",
+          "Sequence": [
+            {
+              "$schema": "Microsoft.IfElseStep",
+              "Condition": {
+                "Expression": "(tasklist.Count - currentPage*4) < 4"
+              },
+              "IfTrue": {
+                "$type": "Microsoft.SendActivityTemplateStep",
+                "activity": "[showtask(tasklist[currentPage*4-tasklist.Count])]"
+              },
+              "IfFalse": {
+                "$type": "Microsoft.SendActivityTemplateStep",
+                "activity": "[showtask(tasklist[currentPage*4, currentPage*4+3])]"
+              }
+            },
+            {
+              "$type": "Microsoft.SetPropertyStep",
+              "name": "currentPage",
+              "value": "currentPage + 1"
+            }
+          ]
+        },
+        {
+          "$schema": "Microsoft.CallDialog",
+          "Dialog": {
+            "$ref": "ShoWNextPageDialog"
+          }
+        }
+      },
+      "IfFalse": {
+        "$type": "Microsoft.SendActivityTemplateStep",
+        "activity": "[DefaultHelpMessage]"
+      }
+    }
+  ]
+}

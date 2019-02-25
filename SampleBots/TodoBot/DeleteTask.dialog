@@ -1,0 +1,65 @@
+{
+  "$type": "Microsoft.SequenceDialog",
+  "$id": "deletetask",
+  "sequence": [
+    {
+      "$type": "Microsoft.CallDialog",
+      "dialog": {
+        "$type": "Microsoft.TextPrompt",
+        "$id": "DeleteTaskPrompt",
+        "property": "task",
+        "pattern": "\\w{3,50}",
+        "initialPrompt": "What task do you want to delete?",
+        "retryPrompt": "Let's try again, What task do you want to delete?",
+        "notMatchedActivity": "You need to give me at least 3 chars to 30 chars as a task."
+      },
+      "property": "task"
+    },
+    {
+      "$type": "Microsoft.SetPropertyStep",
+      "name": "isInTaskList",
+      "value": {
+        "Expression": "tasklist.contains(task)"
+      }
+    },
+    {
+      "$type": "Microsoft.IfElseStep",
+      "condition": {
+        "Expresssion": "isInTaskList"
+      }
+      "IfTrue": {
+        "Dialog": {
+          "$schema": "Microsoft.SequenceDialog",
+          "Sequence": [
+            {
+              "$type": "Microsoft.SetPropertyStep",
+              "name": "tasklist",
+              "value": {
+                "Expression": "tasklist.delete(task)"
+              }
+            },
+            {
+              "$type": "Microsoft.SendActivityTemplateStep",
+              "activity": "[deletedtask]"
+            }
+          ]
+        }
+      },
+      "IfFalse": {
+        "Dialog": {
+          "$schema": "Microsoft.SequenceDialog",
+          "Sequence": [
+            {
+              "$type": "Microsoft.SendActivityTemplateStep",
+              "activity": "[deletedtasknotfound]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "$type": "Microsoft.EndDialog",
+      "result": "value"
+    }
+  ]
+}

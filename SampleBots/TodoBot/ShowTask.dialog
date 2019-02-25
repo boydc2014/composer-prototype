@@ -1,0 +1,48 @@
+{
+  "$id": "showtask",
+  "$type": "Microsoft.SequenceDialog",
+  "sequence": [
+    {
+      "$schema": "Microsoft.IfElseStep",
+      "Condition": {
+        "Expression": "tasklist.Count > 0"
+      },
+      "IfTrue": {
+        "Dialog": {
+          "$schema": "Microsoft.SequenceDialog",
+          "Sequence": [
+            {
+              "$schema": "Microsoft.IfElseStep",
+              "Condition": {
+                "Expression": "tasklist.Count < 4"
+              },
+              "IfTrue": {
+                "$type": "Microsoft.SendActivityTemplateStep",
+                "activity": "[showtask(tasklist[0-tasklist.Count])]"
+              },
+              "IfFalse": {
+                "$type": "Microsoft.SendActivityTemplateStep",
+                "activity": "[showtask(tasklist[0-4])]"
+              }
+            },
+            {
+              "$type": "Microsoft.SetPropertyStep",
+              "name": "currentPage",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "IfFalse": {
+        "$type": "Microsoft.SendActivityTemplateStep",
+        "activity": "[ShowTask_NoTask]"
+      }
+    },
+    {
+      "$schema": "Microsoft.CallDialog",
+      "Dialog": {
+        "$ref": "ShoWNextOrPreviousPageDialog"
+      }
+    }
+  ]
+}

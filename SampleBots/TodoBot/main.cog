@@ -1,0 +1,32 @@
+{
+  "$type": "Microsoft.IntentDialog",
+  "$id": "intentDialog",
+  "recognizer": {
+    "$type": "Microsoft.LuisRecognizer",
+    "applicationId": "5968d2ed-23d1-4f3e-a4bb-4d64ea1c66d3",
+    "endpointKey": "95140545afd44a1997e2eaf47007fa7b",
+    "endpoint": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/5968d2ed-23d1-4f3e-a4bb-4d64ea1c66d3?verbose=true&timezoneOffset=-360&subscription-key=88c531d8cfa2472d8697dee58596c215&q="
+  },
+  "routes": {
+    "AddToDo": { "$ref": "Dialogs\\Main\\AddTask.dialog" },
+    "DeleteTodo": { "$ref": "Dialogs\\Main\\DeleteTask.dialog" },
+    "MarkToDo": { "$ref": "Dialogs\\Main\\MarkTask.dialog" },
+    "ShowTodo": { "$ref": "Dialogs\\Main\\ShowTask.dialog" },
+    "None": { "$ref": "#/dialogs/0" }
+  },
+  "dialogs": [
+    {
+      "$type": "Microsoft.SequenceDialog",
+      "$id": "Help",
+      "sequence": [
+        {
+          "$type": "Microsoft.SendActivityStep",
+          "activity": "Please try add/delete/show/mark task"
+        },
+        {
+          "$type": "Microsoft.EndDialog"
+        }
+      ]
+    }
+  ]
+}
