@@ -31,7 +31,6 @@ function ExtensionContainer() {
         RealEditor = getEditor(type)
     }
 
-    console.log(RealEditor)
     return (
         <Fragment>
             {RealEditor === ''?''
