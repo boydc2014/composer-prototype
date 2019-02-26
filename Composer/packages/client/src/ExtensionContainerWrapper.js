@@ -1,5 +1,12 @@
 import React, {useEffect, useRef} from 'react';
 
+
+/**
+ * ExtensionContainerWrapper is a simple wrap to wrap ExtensionContainer into Shell
+ * 
+ * Currently the messaging receiving is handled here, but this is not ideal, because 
+ * we may have multiple wrappers at same time 
+ */
 function ExtensionContainerWrapper(porps) {
 
     const iframeEl = useRef(null);
