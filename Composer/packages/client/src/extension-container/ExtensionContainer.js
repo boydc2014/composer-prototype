@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo, Fragment} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import './extensionContainer.css';
 import ShellApi from './ShellApi';
 import getEditor from './EditorMap';
@@ -31,12 +31,6 @@ function ExtensionContainer() {
             window.removeEventListener("message", receiveMessage, false);
         }
     }, [])
-    
-    useMemo(() => {
-        if(type !== "") {
-            RealEditor = getEditor(type)
-        }
-    })
 
     function receiveMessage(event) {
         if(event.source === window.parent) {
@@ -45,6 +39,10 @@ function ExtensionContainer() {
             setValue(data.data);
         }
     } 
+
+    if(type !== "") {
+        RealEditor = getEditor(type)
+    }
 
     return (
         <Fragment>

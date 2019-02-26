@@ -1,13 +1,15 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef, useLayoutEffect, useCallback } from 'react';
 import './App.css';
 import httpClient from './utils/http';
 import ExtensionContainerWrapper from './ExtensionContainerWrapper';
 
 function App() {
     const [files, setFiles] = useState([]);
-    const [index, setIndex] = useState(-1);
+    const [openFileIndex, setOpenFileIndex] = useState(-1);
     const [editorType, setEditorType] = useState("");
-    const [botStatus, setBotStatus] = useState("stopped");
+    const [botStatus, setBotStatus] = useState("stopped"); 
+    const openFileIndexRef = useRef();
+    const filesRef = useRef();
 
     const client = new httpClient();
 
@@ -19,6 +21,30 @@ function App() {
         });
     }, [])
 
+    useLayoutEffect(() => {
+        openFileIndexRef.current = openFileIndex;
+    })
+
+    useLayoutEffect(() => {
+        filesRef.current = files;
+    })
+
+    function handleValueChange(newValue) {
+        const currentIndex = openFileIndexRef.current;
+        const files = filesRef.current;
+
+        let payload = {
+            name: files[currentIndex].name,
+            content: newValue
+        }
+      
+        let newFiles = files.slice();
+        newFiles[currentIndex].content = newValue;
+        setFiles(newFiles)
+
+        client.saveFile(payload)
+    }
+
     function getSuffix(fileName) {
         return fileName.substring(fileName.lastIndexOf('.'));
     }
@@ -26,20 +52,7 @@ function App() {
     function handleFileClick (file, index){
         const suffix = getSuffix(file.name)
         setEditorType(suffix);
-        setIndex(index);
-    }
-
-    function handleValueChange(newValue) {
-        var payload = {
-            name: files[index].name,
-            content: newValue
-          }
-      
-          var newFiles = files.slice();
-          newFiles[index].content = newValue;
-          setFiles(newFiles)
-
-          client.saveFile(payload)
+        setOpenFileIndex(index);
     }
 
     return (
@@ -72,8 +85,8 @@ function App() {
                 </nav>
             </aside>
             <main className="App-main">
-                {index > -1? 
-                    <ExtensionContainerWrapper editorType={editorType} data={files[index].content} onChange={handleValueChange}/> 
+                {openFileIndex > -1? 
+                    <ExtensionContainerWrapper editorType={editorType} data={files[openFileIndex].content} onChange={handleValueChange}/> 
                     : 'Welcome'}
             </main>
         </Fragment>
