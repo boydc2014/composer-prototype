@@ -46,7 +46,12 @@ function ExtensionContainerWrapper(porps) {
     }
 
     return (
-        <iframe ref={iframeEl} title={column} style={{height:'100%', width:'100%'}} src='/extensionContainer.html'/>
+        <iframe 
+            ref={iframeEl} 
+            name='editor'
+            title={column} 
+            style={{height:'100%', width:'100%'}} 
+            src='/extensionContainer.html'/>
     )
 }
 

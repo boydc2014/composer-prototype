@@ -2,18 +2,18 @@ import axios from 'axios';
 
 const baseUrl = 'http://localhost:5000/api/';
 
-class httpClient {
+const httpClient = {
 
-    getFiles = (callback) => {
+    getFiles : (callback) => {
         axios.get(baseUrl + 'fileserver')
         .then((response) => {
             callback(response.data)
         }).catch(function(res){
             console.log(res);
         });
-    }
+    },
 
-    saveFile = (payload) => {
+    saveFile : (payload) => {
         axios.put(baseUrl + 'fileserver', payload)
         .then(res => {
             console.log("save success");
@@ -23,9 +23,9 @@ class httpClient {
             console.log("save failed");
         });
         console.log(payload);
-    }
+    },
 
-    toggleBot = (status, callback) => {
+    toggleBot : (status, callback) => {
         if (status === 'stopped') {
             axios.get(baseUrl + 'launcher/start')
             .then((response) => {
