@@ -1,3 +1,6 @@
+# This project has been moved to https://github.com/Microsoft/BotFramework-Composer
+
+
 # Composer (prototype)
 
 The prototype of BF composer, showing the architecture, and the extension system.
