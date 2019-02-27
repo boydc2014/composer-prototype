@@ -8,7 +8,8 @@ const EditorMap = {
     '.json': JsonEditor,
     '.lg': JsonEditor,
     '.lu': JsonEditor,
-    '.md': JsonEditor
+    '.md': JsonEditor,
+    '.CallDialog': JsonEditor,
 }
 
 const getEditor = (documentType) => {

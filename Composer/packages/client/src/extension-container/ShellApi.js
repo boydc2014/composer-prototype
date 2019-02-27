@@ -17,6 +17,14 @@ class ShellApi {
             data: data
         })
     }
+
+    openSubEditor = (position, subData) => {
+        this.postMessage({
+            from: 'editor',
+            commond: 'openSubEditor',
+            data: {position, subData}
+        })
+    }
 }
 
 export default ShellApi

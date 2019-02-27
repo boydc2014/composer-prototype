@@ -60,6 +60,9 @@
 
 .App-main {
   position: fixed;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
   left: 200px;
   top:50px;
   bottom: 0;

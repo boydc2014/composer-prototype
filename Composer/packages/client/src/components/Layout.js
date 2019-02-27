@@ -1,13 +1,16 @@
 import React, { useState, useEffect, Fragment, useContext} from 'react';
-import './layout.css';
 import httpClient from '../utils/http';
-import { FileContext } from '../components/RootComponent';
+import { FileContext, MessageContext } from '../components/RootComponent';
 import { updateFiles, setCurrentFile } from '../actions/fileAction';
+import './layout.css';
+import { openNewEditor } from '../actions/messageAction';
 
 function Layout() {
     const [botStatus, setBotStatus] = useState("stopped"); 
     const fileCtx = useContext(FileContext);
-    const {files, openFileIndex} = fileCtx.fileState;
+    const messageCtx = useContext(MessageContext);
+    const {files} = fileCtx.fileState;
+    const {editors} = messageCtx.messageState;
 
     useEffect(()=> {
         httpClient.getFiles((files) => {
@@ -18,10 +21,10 @@ function Layout() {
     }, [])
 
     function handleFileClick (index){
+        messageCtx.dispatch(openNewEditor(files[index]))
         fileCtx.dispatch(setCurrentFile(index))
     }
 
-    console.log(openFileIndex)
     return (
         <Fragment>
             <header className="App-header">
@@ -52,12 +55,16 @@ function Layout() {
                 </nav>
             </aside>
             <main className="App-main">
-                {openFileIndex > -1? 
-                    <iframe 
-                        name='editor'
-                        title={openFileIndex} 
-                        style={{height:'100%', width:'100%'}} 
-                        src='/extensionContainer.html'/>
+                {editors.length > 0?
+                    editors.map((editor)=>{
+                        return (
+                            <iframe 
+                                key={editor.editorName}
+                                name= {editor.editorName}
+                                title={editor.editorName} 
+                                style={{height:'100%', width:'100%', gridRow:editor.row, gridColumn:editor.col,}} 
+                                src='/extensionContainer.html'/>)
+                    })
                     : 'Welcome'}
             </main>
         </Fragment>
