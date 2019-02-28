@@ -9,11 +9,11 @@ const messageReducer = (state, action) => {
             editors.push({
                 col:1,
                 row:1,
-                editorName:"1+1",
+                editorName:"#1",
                 parentEditor:"",
                 data:action.data
             })
-            return Object.assign({}, state, {editors});
+            return Object.assign({}, state, {editors, openEditorTimes:1});
         case REMOVE_EDITOR:
             return state;
         case ADD_SUB_EDITOR:
@@ -30,8 +30,8 @@ const messageReducer = (state, action) => {
                 editor['col'] = 2;
                 editor['row'] = 1;
             } 
-
-            editor['editorName'] = `${editor['col']}+${editor['row']}`;
+            state.openEditorTimes += 1; 
+            editor['editorName'] = "#"+state.openEditorTimes;
             state.editors.push(editor)
             return Object.assign({}, state);
         default:

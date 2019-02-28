@@ -22,7 +22,8 @@ function RootComponent(props) {
     const [messageState, messageDispatch] = useReducer(messageReducer, {
         commond:'',
         data:{},
-        editors:[]
+        editors:[],
+        openEditorTimes:0
     })
 
     useEffect(() => {
@@ -56,15 +57,10 @@ function RootComponent(props) {
     
             httpClient.saveFile(payload)
         } else {
-            const rootEditor = getRootEditor(editor);
-            const position = getRelativePosition(editor);
-            const frame = window.frames[rootEditor.editorName];
-
-            if(position === '')
-                return ;
+            const frame = window.frames[editor.parentEditor];
             
             MessageApi.transferDataToSubEditor(frame, {
-                position,
+                'sub': editor.editorName,
                 newValue
             })
         }
@@ -72,23 +68,6 @@ function RootComponent(props) {
 
     function getSuffix(fileName) {
         return fileName.substring(fileName.lastIndexOf('.'));
-    }
-
-    function getRootEditor(editor) {
-        let rootEditor = editor
-        const editorMap = {}
-        fileState.editors.map((editor)=>{
-            editorMap[editor.editorName] = editor
-            return editor
-        })
-
-        while(1){
-            rootEditor = editorMap[rootEditor.editorName]
-            if(rootEditor.parentEditor === "")
-                break
-        }
-
-        return rootEditor
     }
 
     function getActiveEditor(source) {
@@ -100,14 +79,6 @@ function RootComponent(props) {
         return editor;
     }
 
-    function getRelativePosition(sub) {
-        if(sub.row === 2)
-            return 'down';
-        if(sub.col === 2)
-            return 'right';
-        return ''
-    }
-
     function postMessage(editor) {
         
         const file = editor.data;
@@ -116,6 +87,20 @@ function RootComponent(props) {
         const frame = window.frames[editor.editorName]
 
         MessageApi.sendDataToEditor(frame, {editorType, data:file.content})
+    }
+
+    function handleEditorOnLoad(editor) {
+        const file = editor.data;
+        const editorType = getSuffix(file.name)
+    
+        const frame = window.frames[editor.editorName]
+
+        MessageApi.sendDataToEditor(frame, {editorType, data:file.content})
+
+        if(editor.parentEditor !== "") {
+            const parent = window.frames[editor.parentEditor];
+            MessageApi.sendToParentOpenSuccess(parent, editor);
+        }
     }
 
     function receiveMessage(event) {
@@ -129,13 +114,12 @@ function RootComponent(props) {
             switch(commond) {
                 //need to use the load event of the document contained in the iframe, not the iframe itself.
                 case 'onLoad':
-                    postMessage(activeEditor);
+                    handleEditorOnLoad(activeEditor)
                     break;
                 case 'save':
                     handleValueChange(activeEditor, data.data);
                     break;
                 case 'openSubEditor':
-                    console.log(data)
                     messageDispatch(
                         addSubEditor(
                             {

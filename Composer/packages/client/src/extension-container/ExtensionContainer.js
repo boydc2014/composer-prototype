@@ -18,26 +18,24 @@ import getEditor from './EditorMap';
 const testRightContent = {
     name: 'Microsoft.CallDialog',
     content: `{
-        "$type": "Microsoft.TextPrompt",
-        "$id": "namePrompt",
-        "property": "name",
-        "pattern": "\\w{3,50}",
-        "initialPrompt": "What's your nick name?",
-        "retryPrompt": "Let's try again, what's your name?",
-        "noMatchResponse": "You need to give me at least 3 chars to 30 chars as a name."
+        "services": [
+        ],
+        "files": [
+           "main.dialog"
+        ],
+        "entry": "main.dialog"
     }`
 }
 
 const testDownContent = {
     name: 'Microsoft.CallDialog',
     content: `{
-        "$type": "Microsoft.TextPrompt",
-        "$id": "countryPrompt",
-        "property": "country",
-        "pattern": "\\w{3,50}",
-        "initialPrompt": "{template(prompt-country)}",
-        "retryPrompt": "Let's try again, what's your country of birth?",
-        "noMatchResponse": "You need to give me at least 3 chars to 30 chars as a country."
+        "services": [
+        ],
+        "files": [
+           "main.dialog"
+        ],
+        "entry": "main.dialog"
     }`
 }
 
@@ -45,6 +43,7 @@ function ExtensionContainer() {
 
     const [value, setValue] = useState(``);
     const [type, setType] = useState('');
+    const [subEditors, setSubEditors] = useState([]);
 
     const shellApi = new ShellApi();
     let RealEditor = "";
@@ -55,13 +54,35 @@ function ExtensionContainer() {
         return function removeListener() {
             window.removeEventListener("message", receiveMessage, false);
         }
-    }, [])
+    })
 
     function receiveMessage(event) {
         if(event.source === window.parent) {
             const data = event.data;
-            setType(data.editorType);
-            setValue(data.data);
+            console.log(data)
+            switch(data.commond) {
+                case 'updateData':
+                    setType(data.editorType);
+                    setValue(data.data);
+                    break;
+                case 'updateSubData':
+                    const editors = subEditors.map((item)=>{
+                        if(item.editorName === data.sub) {
+                            item.data.content = data.newValue
+                            shellApi.saveValue(data.newValue)
+                        }
+
+                        return item
+                    })
+                    setSubEditors(editors)
+                    break;
+                case 'openSubSuccess':
+                    subEditors.push(data.subEditorInfo);
+                    setSubEditors(subEditors)
+                    break;                   
+                default:
+                    break;
+            }
         }
     } 
 

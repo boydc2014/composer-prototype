@@ -14,6 +14,14 @@ const MessageApi = {
             ...data,
         })
     },
+
+    sendToParentOpenSuccess: (editor, subEditorInfo) => {
+        editor.postMessage({
+            'from': 'shell',
+            'commond': 'openSubSuccess',
+            subEditorInfo
+        })
+    }
 }
 
 export default MessageApi
